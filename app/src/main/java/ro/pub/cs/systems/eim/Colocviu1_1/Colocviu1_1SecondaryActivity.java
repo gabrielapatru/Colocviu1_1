@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Colocviu1_1SecondaryActivity extends AppCompatActivity {
     private Button cancel, register;
+    TextView textView1;
     private ButtonClickListener buttonClickListener = new ButtonClickListener();
     private class ButtonClickListener implements View.OnClickListener {
         @Override
@@ -34,5 +36,6 @@ public class Colocviu1_1SecondaryActivity extends AppCompatActivity {
         cancel.setOnClickListener(buttonClickListener);
         register = (Button) findViewById(R.id.register);
         register.setOnClickListener(buttonClickListener);
+        textView1 = (TextView) findViewById(R.id.textView);
     }
 }
