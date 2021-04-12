@@ -1,8 +1,10 @@
 package ro.pub.cs.systems.eim.Colocviu1_1;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.provider.SyncStateContract;
@@ -11,12 +13,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class colocviu1_1MainActivity extends AppCompatActivity {
 
     private Button north, east, west, south, second;
     private TextView textView1;
-    int i=0;
+    int i = 0;
 
     private NorthClickListener northClickListener = new NorthClickListener();
 
@@ -25,9 +28,10 @@ public class colocviu1_1MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             i++;
             textView1.setText(textView1.getText().toString() +
-                    ((Button)north).getText().toString() + ", ");
+                    ((Button) north).getText().toString() + ", ");
         }
     }
+
     private SouthClickListener southClickListener = new SouthClickListener();
 
     private class SouthClickListener implements View.OnClickListener {
@@ -35,7 +39,7 @@ public class colocviu1_1MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             i++;
             textView1.setText(textView1.getText().toString() +
-                    ((Button)south).getText().toString() + ", ");
+                    ((Button) south).getText().toString() + ", ");
         }
     }
 
@@ -46,7 +50,7 @@ public class colocviu1_1MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             i++;
             textView1.setText(textView1.getText().toString() +
-                    ((Button)east).getText().toString() + ", ");
+                    ((Button) east).getText().toString() + ", ");
         }
     }
 
@@ -57,7 +61,7 @@ public class colocviu1_1MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             i++;
             textView1.setText(textView1.getText().toString() +
-                    ((Button)west).getText().toString() + ", ");
+                    ((Button) west).getText().toString() + ", ");
         }
     }
 
@@ -66,33 +70,38 @@ public class colocviu1_1MainActivity extends AppCompatActivity {
     private class secondClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-           textView1.setText(textView1.getText().toString() +
-                     i + ", ");
+            textView1.setText(textView1.getText().toString() +
+                    i + ", ");
+            Intent intent = new Intent(getApplicationContext(), Colocviu1_1SecondaryActivity.class);
+            intent.putExtra("textView1", textView1.getText().toString());
+            startActivityForResult(intent, 2021);
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_colocviu1_1_main);
 
-        if (savedInstanceState != null){
-            if (savedInstanceState.containsKey("textView1") ){
-                TextView usernameEditText = (TextView)findViewById(R.id.textView);
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey("textView1")) {
+                TextView usernameEditText = (TextView) findViewById(R.id.textView);
                 usernameEditText.setText(savedInstanceState.getString("textView1"));
             }
         }
 
-        north = (Button)findViewById(R.id.north);
+
+        north = (Button) findViewById(R.id.north);
         north.setOnClickListener(northClickListener);
-        east = (Button)findViewById(R.id.east);
+        east = (Button) findViewById(R.id.east);
         east.setOnClickListener(eastClickListener);
-        west = (Button)findViewById(R.id.west);
+        west = (Button) findViewById(R.id.west);
         west.setOnClickListener(westClickListener);
-        south = (Button)findViewById(R.id.south);
+        south = (Button) findViewById(R.id.south);
         south.setOnClickListener(southClickListener);
         textView1 = (TextView) findViewById(R.id.textView);
 
-        second = (Button)findViewById(R.id.second);
+        second = (Button) findViewById(R.id.second);
         second.setOnClickListener(secondClickListener);
 
     }
@@ -103,8 +112,17 @@ public class colocviu1_1MainActivity extends AppCompatActivity {
         TextView usernameEditText = (TextView) findViewById(R.id.textView);
         savedInstanceState.putString("textView1", usernameEditText.getText().toString());
         if (savedInstanceState.containsKey("textView1")) {
-            TextView text = (TextView)findViewById(R.id.textView);
+            TextView text = (TextView) findViewById(R.id.textView);
             usernameEditText.setText(savedInstanceState.getString("textView1"));
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2021) {
+            Toast.makeText(this, "The activity returned with result " +
+                    resultCode, Toast.LENGTH_LONG).show();
         }
     }
 }
